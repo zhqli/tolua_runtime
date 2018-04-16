@@ -405,9 +405,8 @@ static int lj_cf_package_require(lua_State *L)
   const char *name = luaL_checkstring(L, 1);
   int i;
   lua_settop(L, 1);  /* _LOADED table will be at index 2 */
-  const char* key = luaL_gsub(L, name, "/", ".");
   lua_getfield(L, LUA_REGISTRYINDEX, "_LOADED");
-  lua_getfield(L, 3, key);
+  lua_getfield(L, 2, name);
   if (lua_toboolean(L, -1)) {  /* is it there? */
     if (lua_touserdata(L, -1) == sentinel)  /* check loops */
       luaL_error(L, "loop or previous error loading module " LUA_QS, name);
@@ -433,16 +432,16 @@ static int lj_cf_package_require(lua_State *L)
       lua_pop(L, 1);
   }
   lua_pushlightuserdata(L, sentinel);
-  lua_setfield(L, 3, key);  /* _LOADED[name] = sentinel */
+  lua_setfield(L, 2, name);  /* _LOADED[name] = sentinel */
   lua_pushstring(L, name);  /* pass name as argument to module */
   lua_call(L, 1, 1);  /* run loaded module */
   if (!lua_isnil(L, -1))  /* non-nil return? */
-    lua_setfield(L, 3, key);  /* _LOADED[name] = returned value */
-  lua_getfield(L, 3, key);
+    lua_setfield(L, 2, name);  /* _LOADED[name] = returned value */
+  lua_getfield(L, 2, name);
   if (lua_touserdata(L, -1) == sentinel) {   /* module did not set a value? */
     lua_pushboolean(L, 1);  /* use true as result */
     lua_pushvalue(L, -1);  /* extra copy to be returned */
-    lua_setfield(L, 3, key);  /* _LOADED[name] = true */
+    lua_setfield(L, 2, name);  /* _LOADED[name] = true */
   }
   lj_lib_checkfpu(L);
   return 1;
@@ -489,19 +488,18 @@ static void modinit(lua_State *L, const char *modname)
 static int lj_cf_package_module(lua_State *L)
 {
   const char *modname = luaL_checkstring(L, 1);
-  const char *key = luaL_gsub(L, modname, "/", ".");
   int lastarg = (int)(L->top - L->base);
-  luaL_pushmodule(L, key, 1);
+  luaL_pushmodule(L, modname, 1);
   lua_getfield(L, -1, "_NAME");
   if (!lua_isnil(L, -1)) {  /* Module already initialized? */
     lua_pop(L, 1);
   } else {
     lua_pop(L, 1);
-    modinit(L, key);
+    modinit(L, modname);
   }
   lua_pushvalue(L, -1);
   setfenv(L);
-  dooptions(L, lastarg - 1);
+  dooptions(L, lastarg);
   return LJ_52;
 }
 

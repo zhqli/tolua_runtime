@@ -246,7 +246,6 @@ static void *mcode_alloc(jit_State *J, size_t sz)
     } while (!(hint + sz < range+range));
     hint = target + hint - range;
   }
-  J->flags &= ~(uint32_t)JIT_F_ON;
   lj_trace_err(J, LJ_TRERR_MCODEAL);  /* Give up. OS probably ignores hints? */
   return NULL;
 }
@@ -272,12 +271,6 @@ static void *mcode_alloc(jit_State *J, size_t sz)
 #endif
 
 /* -- MCode area management ----------------------------------------------- */
-
-/* Linked list of MCode areas. */
-typedef struct MCLink {
-  MCode *next;		/* Next area. */
-  size_t size;		/* Size of current area. */
-} MCLink;
 
 /* Allocate a new MCode area. */
 static void mcode_allocarea(jit_State *J)
