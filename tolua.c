@@ -2183,6 +2183,8 @@ static const struct luaL_Reg tolua_funcs[] =
     { "initget", tolua_initgettable},
     { "int64", tolua_newint64},        
     { "uint64", tolua_newuint64},
+    { "bpack", tolua_pack},
+    { "bunpack", tolua_unpack},
     { "traceback", traceback},
 	{ NULL, NULL }
 };
@@ -2572,6 +2574,7 @@ LUALIB_API void tolua_openlibs(lua_State *L)
     tolua_openfixedmap(L);    
     tolua_openint64(L);
     tolua_openuint64(L);
+    tolua_openpack(L);
     tolua_openvptr(L);    
     //tolua_openrequire(L);
 

@@ -16,6 +16,7 @@ LOCAL_CFLAGS :=  -O2 -std=gnu99
 LOCAL_SRC_FILES :=	../../tolua.c \
 					../../int64.c \
 					../../uint64.c \
+					../../lpack.c \
 					../../pb.c \
 					../../lpeg.c \
 					../../struct.c \

@@ -1,7 +1,7 @@
 cd luajit-2.1/src
 
 # Android/ARM, armeabi-v7a (ARMv7 VFP), Android 4.0+ (ICS)
-NDK=C:/Android/android-ndk-r13b
+NDK=I:/android-ndk-r10e
 NDKABI=19
 NDKVER=$NDK/toolchains/arm-linux-androideabi-4.9
 NDKP=$NDKVER/prebuilt/windows-x86_64/bin/arm-linux-androideabi-
@@ -14,7 +14,7 @@ cp ./libluajit.a ../../android/jni/libluajit.a
 make clean
 
 cd ../../android
-ndk-build clean APP_ABI="armeabi-v7a,x86"
-ndk-build APP_ABI="armeabi-v7a"
+/i/android-ndk-r10e/ndk-build clean APP_ABI="armeabi-v7a,x86"
+/i/android-ndk-r10e/ndk-build APP_ABI="armeabi-v7a"
 cp libs/armeabi-v7a/libtolua.so ../Plugins/Android/libs/armeabi-v7a
-ndk-build clean APP_ABI="armeabi-v7a,x86"
+/i/android-ndk-r10e/ndk-build clean APP_ABI="armeabi-v7a,x86"

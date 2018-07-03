@@ -14,6 +14,7 @@ cd ..
 gcc -m32 -O2 -std=gnu99 -shared \
 	int64.c \
 	uint64.c \
+	lpack.c \
 	tolua.c \
 	pb.c \
 	lpeg.c \
