@@ -2573,6 +2573,7 @@ LUALIB_API void tolua_openlibs(lua_State *L)
     tolua_openubox(L);
     tolua_openfixedmap(L);    
     tolua_openint64(L);
+    tolua_openamqnative(L);
     tolua_openuint64(L);
     tolua_openpack(L);
     tolua_openvptr(L);    
@@ -2745,4 +2746,25 @@ LUALIB_API int tolua_where (lua_State *L, int level)
 
     lua_pushliteral(L, "");
     return -1;
+}
+
+LUA_API int tolua_set_amqnative_getbufferfun(AmQ_FunGetBufferCallBack fun)
+{
+	amqnative_getbuffer = fun;
+	if (amqnative_getbuffer == NULL) return 99;
+	return 1024;
+}
+
+LUA_API int tolua_set_amqnative_getbufferoffsetfun(AmQ_FunGetBufferOffsetCallBack fun)
+{
+    amqnative_getbufferoffset = fun;
+	if (amqnative_getbufferoffset == NULL) return 99;
+	return 1024;
+}
+
+LUA_API int tolua_set_amqnative_getoffsetbufferfun(AmQ_FunGetOffsetBufferCallBack fun)
+{
+	amqnative_getoffsetbuffer = fun;
+	if (amqnative_getoffsetbuffer == NULL) return 99;
+	return 1024;
 }

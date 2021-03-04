@@ -19,6 +19,7 @@ gcc -m64 -O2 -std=gnu99 -shared \
  pb.c \
  lpeg.c \
  struct.c \
+ amqnative.c \
  cjson/strbuf.c \
  cjson/lua_cjson.c \
  cjson/fpconv.c \

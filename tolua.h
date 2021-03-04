@@ -35,6 +35,7 @@
 #define LUA_RIDX_LOADED				26
 #define LUA_RIDX_UINT64				27
 #define LUA_RIDX_CUSTOMTRACEBACK 	28
+#define LUA_RIDX_AMQNATIVE		 	29
 
 #define LUA_NULL_USERDATA 	1
 #define TOLUA_NOPEER    	LUA_REGISTRYINDEX 		
@@ -46,6 +47,7 @@
 #define abs_index(L, i)  ((i) > 0 || (i) <= LUA_REGISTRYINDEX ? (i) : lua_gettop(L) + (i) + 1)
 
 void tolua_openint64(lua_State* L);
+void tolua_openamqnative(lua_State* L);
 int  tolua_newint64(lua_State* L);
 void tolua_pushint64(lua_State* L, int64_t n);
 
@@ -57,5 +59,18 @@ int tolua_pack(lua_State *L);
 int tolua_unpack(lua_State *L);
 
 extern int toluaflags;
+
+
+typedef const char* (*AmQ_FunGetBufferCallBack)(int id, int* size);
+
+typedef const int (*AmQ_FunGetBufferOffsetCallBack)(int id, int key);
+
+typedef const char* (*AmQ_FunGetOffsetBufferCallBack)(int id, int offset, int size);
+
+AmQ_FunGetBufferCallBack amqnative_getbuffer;
+
+AmQ_FunGetBufferOffsetCallBack amqnative_getbufferoffset;
+
+AmQ_FunGetOffsetBufferCallBack amqnative_getoffsetbuffer;
 
 #endif
